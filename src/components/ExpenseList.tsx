@@ -5,22 +5,22 @@ import ExpenseFilter from "./ExpenseFilter";
 interface Props {
   list: Expense[];
   categories: CategoryType[];
-  categoryFilter: CategoryType;
-  onFilter: (name: CategoryType) => void;
+  selectedCategory: CategoryType;
+  onSelectCategory: (name: CategoryType) => void;
   onDelete: (id: number) => void;
 }
 
 const ExpenseList = ({
   list,
   categories,
-  categoryFilter,
+  selectedCategory,
   onDelete,
-  onFilter,
+  onSelectCategory,
 }: Props) => {
-  // const [categoryFilter, setCategoryFilter] = useState("");
+  // const [selectedCategory, setCategoryFilter] = useState("");
 
-  const filteredList = !!categoryFilter
-    ? list.filter((item) => item.category === categoryFilter)
+  const filteredList = !!selectedCategory
+    ? list.filter((item) => item.category === selectedCategory)
     : list;
 
   const computedTotal = filteredList.reduce(
@@ -34,8 +34,8 @@ const ExpenseList = ({
 
       <ExpenseFilter
         categories={categories}
-        categoryFilter={categoryFilter}
-        onFilter={onFilter}
+        selectedCategory={selectedCategory}
+        onSelectCategory={onSelectCategory}
       />
 
       {!filteredList.length ? (

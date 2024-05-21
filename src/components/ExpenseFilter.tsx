@@ -3,11 +3,11 @@ import { CategoryType } from "../models/Expense";
 
 interface Props {
   categories: CategoryType[];
-  categoryFilter: CategoryType;
-  onFilter: (name: CategoryType) => void;
+  selectedCategory: CategoryType;
+  onSelectCategory: (name: CategoryType) => void;
 }
 
-const ExpenseFilter = ({ categories, categoryFilter, onFilter }: Props) => {
+const ExpenseFilter = ({ categories, selectedCategory, onSelectCategory }: Props) => {
   return (
     <div className="mb-5">
       <label htmlFor="" className="form-label">
@@ -17,7 +17,7 @@ const ExpenseFilter = ({ categories, categoryFilter, onFilter }: Props) => {
         onChange={({ currentTarget: { value } }) => {
           console.log(value);
         //   setCategoryFilter(value);
-          onFilter(value as CategoryType);
+          onSelectCategory(value as CategoryType);
         }}
         id="categoryId"
         className="form-select mb-5"

@@ -5,7 +5,7 @@ import { Expense, CategoryType } from "./models/Expense";
 import produce from "immer";
 
 const App1 = () => {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryType | "">("");
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | "">("");
 
   const [list, setList] = useState<Expense[]>([
     { id: 1, description: "Milk", amount: 5, category: "Groceries" },
@@ -38,9 +38,9 @@ const App1 = () => {
       <ExpenseList
         list={list}
         categories={categories}
-        categoryFilter={categoryFilter as CategoryType}
+        selectedCategory={selectedCategory as CategoryType}
         onDelete={handleDelete}
-        onFilter={filter => setCategoryFilter(filter)}
+        onSelectCategory={filter => setSelectedCategory(filter)}
       />
     </div>
   );
