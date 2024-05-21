@@ -1,4 +1,4 @@
-import React from "react";
+import { Expense } from "../../models/Expense";
 
 interface Props {
   list: Expense[];
@@ -27,7 +27,7 @@ const ExpenseList = ({ list }: Props) => {
             </tr>
           ))}
           <tr>
-            <td>Total</td>
+            <td><strong>Total</strong></td>
             <td>${computedTotal}</td>
             <td></td>
           </tr>
