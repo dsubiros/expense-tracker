@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+
 import ExpenseList from "./components/ExpenseList";
 import ExpenseForm from "./components/ExpenseForm";
 import { Expense, CategoryType } from "./models/Expense";
 import produce from "immer";
+import ExpenseForm2 from "./components/ExpenseForm2";
 
 const App1 = () => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | "">("");
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | "">(
+    ""
+  );
 
   const [list, setList] = useState<Expense[]>([
     { id: 1, description: "Milk", amount: 5, category: "Groceries" },
@@ -15,16 +19,10 @@ const App1 = () => {
   ]);
 
   const filteredList = !!selectedCategory
-  ? list.filter((item) => item.category === selectedCategory)
-  : list;
+    ? list.filter((item) => item.category === selectedCategory)
+    : list;
 
   const [count, setCount] = useState(list.length + 1);
-
-  const [categories, setCategories] = useState<CategoryType[]>([
-    "Groceries",
-    "Utilities",
-    "Entertaintment",
-  ]);
 
   const handleSubmit = (data: Expense) => {
     setList(
@@ -39,13 +37,17 @@ const App1 = () => {
 
   return (
     <div>
-      <ExpenseForm categories={categories} onSubmit={handleSubmit} />
+      {/* <ExpenseForm categories={categories} onSubmit={handleSubmit} /> */}
+      <div className="mb-5">
+        <ExpenseForm2 />
+      </div>
+
+      <hr />
       <ExpenseList
         list={filteredList}
-        categories={categories}
         selectedCategory={selectedCategory as CategoryType}
         onDelete={handleDelete}
-        onSelectCategory={filter => setSelectedCategory(filter)}
+        onSelectCategory={(filter) => setSelectedCategory(filter)}
       />
     </div>
   );

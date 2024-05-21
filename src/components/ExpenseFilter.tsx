@@ -1,13 +1,14 @@
 import React from "react";
 import { CategoryType } from "../models/Expense";
+import categories from "../categories";
 
 interface Props {
-  categories: CategoryType[];
+  // categories: CategoryType[];
   selectedCategory: CategoryType;
   onSelectCategory: (name: CategoryType) => void;
 }
 
-const ExpenseFilter = ({ categories, selectedCategory, onSelectCategory }: Props) => {
+const ExpenseFilter = ({ selectedCategory, onSelectCategory }: Props) => {
   return (
     <div className="mb-5">
       <label htmlFor="" className="form-label">
@@ -16,15 +17,15 @@ const ExpenseFilter = ({ categories, selectedCategory, onSelectCategory }: Props
       <select
         onChange={({ currentTarget: { value } }) => {
           console.log(value);
-        //   setCategoryFilter(value);
+          //   setCategoryFilter(value);
           onSelectCategory(value as CategoryType);
         }}
         id="categoryId"
         className="form-select mb-5"
       >
-        <option></option>
+        <option>All categories</option>
         {categories.map((cat) => (
-          <option key={cat} value={cat} label={cat}>
+          <option key={cat} value={cat}>
             {cat}
           </option>
         ))}

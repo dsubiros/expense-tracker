@@ -4,7 +4,6 @@ import ExpenseFilter from "./ExpenseFilter";
 
 interface Props {
   list: Expense[];
-  categories: CategoryType[];
   selectedCategory: CategoryType;
   onSelectCategory: (name: CategoryType) => void;
   onDelete: (id: number) => void;
@@ -12,7 +11,7 @@ interface Props {
 
 const ExpenseList = ({
   list,
-  categories,
+  // categories,
   selectedCategory,
   onDelete,
   onSelectCategory,
@@ -27,8 +26,7 @@ const ExpenseList = ({
     <div>
       <strong>My Expenses List</strong>
 
-      <ExpenseFilter
-        categories={categories}
+      <ExpenseFilter        
         selectedCategory={selectedCategory}
         onSelectCategory={onSelectCategory}
       />
