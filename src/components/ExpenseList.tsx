@@ -17,6 +17,8 @@ const ExpenseList = ({
   onDelete,
   onFilter,
 }: Props) => {
+  // const [categoryFilter, setCategoryFilter] = useState("");
+
   const filteredList = !!categoryFilter
     ? list.filter((item) => item.category === categoryFilter)
     : list;
@@ -28,9 +30,8 @@ const ExpenseList = ({
 
   return (
     <div>
-      <h1 className="mb-3">My Expenses List</h1>
+      <strong>My Expenses List</strong>
 
-      {/* {_genCategoryFilter(setCategoryFilter, categories)} */}
       <ExpenseFilter
         categories={categories}
         categoryFilter={categoryFilter}
@@ -45,15 +46,6 @@ const ExpenseList = ({
     </div>
   );
 };
-
-// function _genCategoryFilter(
-//   setCategoryFilter: Function,
-//   categories: CategoryType[]
-// ) {
-//   return (
-
-//   );
-// }
 
 function _genTable(
   list: Expense[],
@@ -75,7 +67,7 @@ function _genTable(
           <tr key={id}>
             <td>{id}</td>
             <td>{description}</td>
-            <td>${amount.toFixed(2)}</td>
+            <td>{amount}</td>
             <td>{category}</td>
             <td>
               <button
@@ -91,7 +83,7 @@ function _genTable(
           <td>
             <strong>Total</strong>
           </td>
-          <td>${computedTotal.toFixed(2)}</td>
+          <td>${computedTotal}</td>
           <td></td>
         </tr>
       </tbody>
