@@ -1,29 +1,41 @@
 import { useState } from "react";
-import { CategoryType, Expense } from "../../models/Expense";
+import { CategoryType, Expense } from "../models/Expense";
+import ExpenseFilter from "./ExpenseFilter";
 
 interface Props {
   list: Expense[];
   categories: CategoryType[];
+  categoryFilter: CategoryType;
+  onFilter: (name: CategoryType) => void;
   onDelete: (id: number) => void;
 }
 
-const ExpenseList = ({ list, categories, onDelete }: Props) => {
-  const [categoryFilter, setCategoryFilter] = useState("");
-  
+const ExpenseList = ({
+  list,
+  categories,
+  categoryFilter,
+  onDelete,
+  onFilter,
+}: Props) => {
   const filteredList = !!categoryFilter
     ? list.filter((item) => item.category === categoryFilter)
     : list;
-  
-    const computedTotal = filteredList.reduce(
+
+  const computedTotal = filteredList.reduce(
     (sum, { amount }) => (sum += amount),
     0
   );
 
   return (
     <div>
-      <strong>My Expenses List</strong>
+      <h1 className="mb-3">My Expenses List</h1>
 
-      {_genCategoryFilter(setCategoryFilter, categories)}
+      {/* {_genCategoryFilter(setCategoryFilter, categories)} */}
+      <ExpenseFilter
+        categories={categories}
+        categoryFilter={categoryFilter}
+        onFilter={onFilter}
+      />
 
       {!filteredList.length ? (
         <strong>No items were found</strong>
@@ -34,33 +46,14 @@ const ExpenseList = ({ list, categories, onDelete }: Props) => {
   );
 };
 
-function _genCategoryFilter(
-  setCategoryFilter: Function,
-  categories: CategoryType[]
-) {
-  return (
-    <div className="mb-5">
-      <label htmlFor="" className="form-label">
-        Select to filter by catgory
-      </label>
-      <select
-        onChange={({ currentTarget: { value } }) => {
-          console.log(value);
-          setCategoryFilter(value);
-        }}
-        id="categoryId"
-        className="form-select mb-5"
-      >
-        <option></option>
-        {categories.map((cat) => (
-          <option key={cat} value={cat} label={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+// function _genCategoryFilter(
+//   setCategoryFilter: Function,
+//   categories: CategoryType[]
+// ) {
+//   return (
+
+//   );
+// }
 
 function _genTable(
   list: Expense[],
@@ -82,7 +75,7 @@ function _genTable(
           <tr key={id}>
             <td>{id}</td>
             <td>{description}</td>
-            <td>{amount}</td>
+            <td>${amount.toFixed(2)}</td>
             <td>{category}</td>
             <td>
               <button
@@ -98,7 +91,7 @@ function _genTable(
           <td>
             <strong>Total</strong>
           </td>
-          <td>${computedTotal}</td>
+          <td>${computedTotal.toFixed(2)}</td>
           <td></td>
         </tr>
       </tbody>

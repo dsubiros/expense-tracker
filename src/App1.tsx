@@ -5,18 +5,15 @@ import { Expense, CategoryType } from "./models/Expense";
 import produce from "immer";
 
 const App1 = () => {
-  const [count, setCount] = useState(1);
+  const [categoryFilter, setCategoryFilter] = useState<CategoryType | "">("");
 
   const [list, setList] = useState<Expense[]>([
-    // { id: 1, description: "Milk", amount: 5, category: Category.Groceries },
-    // { id: 2, description: "Bread", amount: 2, category: Category.Groceries },
-    // { id: 3, description: "Cheese", amount: 3, category: Category.Groceries },
-
     { id: 1, description: "Milk", amount: 5, category: "Groceries" },
     { id: 2, description: "Bread", amount: 2, category: "Groceries" },
     { id: 3, description: "Roku TV", amount: 299, category: "Entertaintment" },
     { id: 4, description: "Filtrete", amount: 11.88, category: "Utilities" },
   ]);
+  const [count, setCount] = useState(list.length + 1);
 
   const [categories, setCategories] = useState<CategoryType[]>([
     "Groceries",
@@ -27,21 +24,13 @@ const App1 = () => {
   const handleSubmit = (data: Expense) => {
     setList(
       produce((draft) => {
-        draft.push({ ...data, id: count + 1 });
         setCount(count + 1);
+        draft.push({ ...data, id: count });
       })
     );
   };
 
-  const handleDelete = (id: number) => {
-    console.warn(`EXEC handleDelete with id=${id}`);
-
-    setList(
-      produce((draft) => {
-        return draft.filter((x) => x.id !== id);
-      })
-    );
-  };
+  const handleDelete = (id: number) => setList(list.filter((x) => x.id !== id));
 
   return (
     <div>
@@ -49,7 +38,9 @@ const App1 = () => {
       <ExpenseList
         list={list}
         categories={categories}
+        categoryFilter={categoryFilter as CategoryType}
         onDelete={handleDelete}
+        onFilter={filter => setCategoryFilter(filter)}
       />
     </div>
   );

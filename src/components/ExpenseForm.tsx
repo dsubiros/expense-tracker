@@ -2,7 +2,7 @@ import React, { FormEvent } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { literal, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CategoryType, Expense } from "../../models/Expense";
+import { CategoryType, Expense } from "../models/Expense";
 
 interface Props {
   categories: CategoryType[];
