@@ -53,7 +53,8 @@ const ExpenseForm = ({ categories, onSubmit }: Props) => {
       })}
       noValidate
     >
-      <p>{JSON.stringify(getValues())}</p>
+      {/* <p>{JSON.stringify(getValues())}</p> */}
+
       <div className="mb-5">
         <div className="mb-3">
           <label htmlFor="description" className="form-label">

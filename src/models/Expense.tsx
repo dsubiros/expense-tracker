@@ -1,10 +1,4 @@
-// import { Category } from "../App1";
-
 export type CategoryType = "Groceries" | "Utilities" | "Entertaintment";
-
-// interface Category {
-
-// }
 
 export interface Expense {
   id: number;
@@ -13,16 +7,6 @@ export interface Expense {
   category: CategoryType;
   // category: Category;
 }
-
-// export enum Category {
-//   Groceries,
-//   Utilities,
-//   Enterntaintment,
-// }
-
-// export interface Category {
-//   name: CategoryType;
-// }
 
 // export enum Category {
 //   Groceries = 1,
