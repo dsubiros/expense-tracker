@@ -11,23 +11,27 @@ const ExpenseList = ({ list }: Props) => {
     <div>
       <strong>My Expenses List</strong>
       <table className="table table-bordered">
-        <tr>
-          <td>Description</td>
-          <td>Amount</td>
-          <td>Catregory</td>
-        </tr>
-        {list.map(({ id, description, amount, category }) => (
-          <tr key={id}>
-            <td>{description}</td>
-            <td>{amount}</td>
-            <td>{category}</td>
+        <thead>
+          <tr>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Catregory</td>
           </tr>
-        ))}
-        <tr>
-          <td>Total</td>
-          <td>${computedTotal}</td>
-          <td></td>
-        </tr>
+        </thead>
+        <tbody>
+          {list.map(({ id, description, amount, category }) => (
+            <tr key={id}>
+              <td>{description}</td>
+              <td>{amount}</td>
+              <td>{category}</td>
+            </tr>
+          ))}
+          <tr>
+            <td>Total</td>
+            <td>${computedTotal}</td>
+            <td></td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

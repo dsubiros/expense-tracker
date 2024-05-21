@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ExpenseList from './components/ExpenseList';
+import ExpenseForm from './components/ExpenseForm';
 
 const App1 = () => {
     const [list, setList] = useState<Expense[]>([
@@ -10,6 +11,7 @@ const App1 = () => {
 
   return (
     <div>
+        <ExpenseForm/>
         <ExpenseList list={list}/>
     </div>
   )
