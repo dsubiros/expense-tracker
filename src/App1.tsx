@@ -13,6 +13,11 @@ const App1 = () => {
     { id: 3, description: "Roku TV", amount: 299, category: "Entertaintment" },
     { id: 4, description: "Filtrete", amount: 11.88, category: "Utilities" },
   ]);
+
+  const filteredList = !!selectedCategory
+  ? list.filter((item) => item.category === selectedCategory)
+  : list;
+
   const [count, setCount] = useState(list.length + 1);
 
   const [categories, setCategories] = useState<CategoryType[]>([
@@ -36,7 +41,7 @@ const App1 = () => {
     <div>
       <ExpenseForm categories={categories} onSubmit={handleSubmit} />
       <ExpenseList
-        list={list}
+        list={filteredList}
         categories={categories}
         selectedCategory={selectedCategory as CategoryType}
         onDelete={handleDelete}

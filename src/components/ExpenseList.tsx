@@ -17,13 +17,8 @@ const ExpenseList = ({
   onDelete,
   onSelectCategory,
 }: Props) => {
-  // const [selectedCategory, setCategoryFilter] = useState("");
 
-  const filteredList = !!selectedCategory
-    ? list.filter((item) => item.category === selectedCategory)
-    : list;
-
-  const computedTotal = filteredList.reduce(
+  const computedTotal = list.reduce(
     (sum, { amount }) => (sum += amount),
     0
   );
@@ -38,10 +33,10 @@ const ExpenseList = ({
         onSelectCategory={onSelectCategory}
       />
 
-      {!filteredList.length ? (
+      {!list.length ? (
         <strong>No items were found</strong>
       ) : (
-        _genTable(filteredList, onDelete, computedTotal)
+        _genTable(list, onDelete, computedTotal)
       )}
     </div>
   );
