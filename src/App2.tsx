@@ -19,6 +19,7 @@ const App2 = () => {
 
     const fetchData = async () => {
       try {
+        setError('');
         setIsLoading(true);
         const { data } = await axios.get<User[]>(url, {
           signal: controller.signal,
@@ -26,6 +27,7 @@ const App2 = () => {
 
         setUsers(data);
         setIsLoading(false);
+        
       } catch (error) {
         if (error instanceof CanceledError) return;
         setError((error as AxiosError).message);
@@ -42,8 +44,21 @@ const App2 = () => {
     const originalUsers = [...users];
 
     setUsers(users.filter((u) => u.id !== id));
-    axios.delete(`${url}/${id}`)
-    .catch((err: AxiosError) => {
+    axios.delete(`${url}/${id}`).catch((err: AxiosError) => {
+      setError(err.message);
+      setUsers(originalUsers);
+    });
+  };
+
+  const addUser = () => {
+    const originalUsers = [...users];
+
+    const newUser = { id: 0, name: "Mosh" };
+    setUsers([newUser, ...users]);
+
+    axios.post(url, newUser)
+    .then(({data: savedUser}) => setUsers([savedUser, ...users]))
+    .catch(err => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -51,8 +66,12 @@ const App2 = () => {
 
   return (
     <>
-      {isLoading && <Spinner />}
       {error && <p className="text-danger">ERROR: {error}</p>}
+      {isLoading && <Spinner />}
+
+      <button onClick={addUser} className="btn btn-primary mb-3">
+        Submit
+      </button>
 
       <ul className="list-group">
         {users.map(({ id, name }) => (
