@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios, { AxiosError, CanceledError } from "axios";
 import Spinner from "./components/Spinner";
-
-const url = "https://jsonplaceholder.typicode.com/users1";
+// import apiClient, { CanceledError, AxiosError } from "./services/api-client";
+import apiClient, { CanceledError} from "./services/api-client";
 
 interface User {
   id: number;
@@ -19,18 +18,17 @@ const App2 = () => {
 
     const fetchData = async () => {
       try {
-        setError('');
+        setError("");
         setIsLoading(true);
-        const { data } = await axios.get<User[]>(url, {
+        const { data } = await apiClient.get<User[]>('/users', {
           signal: controller.signal,
         });
 
         setUsers(data);
         setIsLoading(false);
-        
-      } catch (error) {
+      } catch (error: any) {
         if (error instanceof CanceledError) return;
-        setError((error as AxiosError).message);
+        setError(error.message);
         setIsLoading(false);
       }
     };
@@ -44,7 +42,7 @@ const App2 = () => {
     const originalUsers = [...users];
 
     setUsers(users.filter((u) => u.id !== id));
-    axios.delete(`${url}/${id}`).catch((err: AxiosError) => {
+    apiClient.delete(`/users/${id}`).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -56,9 +54,22 @@ const App2 = () => {
     const newUser = { id: 0, name: "Mosh" };
     setUsers([newUser, ...users]);
 
-    axios.post(url, newUser)
-    .then(({data: savedUser}) => setUsers([savedUser, ...users]))
-    .catch(err => {
+    apiClient
+      .post('/users', newUser)
+      .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
+      .catch((err) => {
+        setError(err.message);
+        setUsers(originalUsers);
+      });
+  };
+
+  const updateUser = (user: User) => {
+    const originalUsers = [...users];
+
+    const updatedUser = { ...user, name: user.name + "!" };
+    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+
+    apiClient.patch(`/users/${user.id}`, updatedUser).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -74,18 +85,26 @@ const App2 = () => {
       </button>
 
       <ul className="list-group">
-        {users.map(({ id, name }) => (
+        {users.map((user) => (
           <li
-            key={id}
+            key={user.id}
             className="list-group-item d-flex justify-content-between"
           >
-            {name}{" "}
-            <button
-              onClick={() => deleteUser(id)}
-              className="btn btn-sm btn-outline-danger"
-            >
-              Delete
-            </button>
+            {user.name}{" "}
+            <div>
+              <button
+                onClick={() => updateUser(user)}
+                className="btn btn-sm btn-outline-secondary mx-1"
+              >
+                Update
+              </button>
+              <button
+                onClick={() => deleteUser(user.id)}
+                className="btn btn-sm btn-outline-danger"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
