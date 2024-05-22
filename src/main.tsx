@@ -5,9 +5,10 @@ import App from './App'
 import './index.css'
 import App1 from './App1'
 import 'bootstrap/dist/css/bootstrap.css';
+import App2 from './App2'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App1 />
+    <App2 />
   </React.StrictMode>,
 )

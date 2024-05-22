@@ -33,13 +33,21 @@ const App1 = () => {
     );
   };
 
+  const handleSubmit2 = (data: any) => {
+    console.log(data);
+
+    setList([...list, { ...data, id: count } as Expense]);
+    setCount(count + 1);
+  };
+
   const handleDelete = (id: number) => setList(list.filter((x) => x.id !== id));
 
   return (
     <div>
       {/* <ExpenseForm categories={categories} onSubmit={handleSubmit} /> */}
       <div className="mb-5">
-        <ExpenseForm2 />
+        {/* <ExpenseForm2 onSubmit={handleSubmit2}/> */}
+        <ExpenseForm2 onSubmit={handleSubmit2} />
       </div>
 
       <hr />

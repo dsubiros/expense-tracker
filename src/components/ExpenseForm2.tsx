@@ -12,16 +12,24 @@ const schema = z.object({
     .string()
     .min(3, { message: "Description should be at least 3 characters." })
     .max(50),
-  amount: z.number({invalid_type_error: 'Amount is required.'}).min(0.01).max(100_000),
+  amount: z
+    .number({ invalid_type_error: "Amount is required." })
+    .min(0.01)
+    .max(100_000),
   category: z.enum(categories, {
-    errorMap: () => ({message: 'Category is required.'})
+    errorMap: () => ({ message: "Category is required." }),
   }),
 });
 
 type ExpenseFormData = z.infer<typeof schema>;
 
-const ExpenseForm2 = () => {
+interface Props {
+  onSubmit: (data: ExpenseFormData) => void;
+}
+
+const ExpenseForm2 = ({ onSubmit }: Props) => {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -30,7 +38,12 @@ const ExpenseForm2 = () => {
   console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        onSubmit(data);
+        reset();
+      })}
+    >
       <div className="mb-3">
         <label htmlFor="description" className="form-label">
           Description
@@ -55,7 +68,9 @@ const ExpenseForm2 = () => {
           type="number"
           className="form-control"
         />
-        {errors.amount && <p className="text-danger">{errors.amount.message}</p>}
+        {errors.amount && (
+          <p className="text-danger">{errors.amount.message}</p>
+        )}
       </div>
       <div className="mb-3">
         <label htmlFor="category" className="form-label">
@@ -65,7 +80,9 @@ const ExpenseForm2 = () => {
           <option value=""></option>
           {getCategories()}
         </select>
-        {errors.category && <p className="text-danger">{errors.category.message}</p>}
+        {errors.category && (
+          <p className="text-danger">{errors.category.message}</p>
+        )}
       </div>
 
       <button className="btn btn-primary">Submit</button>
