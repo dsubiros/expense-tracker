@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "./components/Spinner";
-// import apiClient, { CanceledError, AxiosError } from "./services/api-client";
-import apiClient, { CanceledError } from "./services/apiClient";
+import { CanceledError } from "./services/apiClient";
 import userServices, { User } from "./services/userServices";
 
 const App2 = () => {
@@ -11,7 +10,7 @@ const App2 = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const { request, cancel } = userServices.getAll();
+    const { request, cancel } = userServices.getAll<User>();
 
     request
       .then(({ data }) => {
@@ -29,10 +28,9 @@ const App2 = () => {
   const deleteUser = (id: number) => {
     const originalUsers = [...users];
 
-    const { request, cancel } = userServices.deleteOne(id);
+    const { request, cancel } = userServices.deleteOne<User>(id);
 
     setUsers(users.filter((u) => u.id !== id));
-    // apiClient.delete(`/users/${id}`)
     request.catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
@@ -47,8 +45,6 @@ const App2 = () => {
 
     const { request, cancel } = userServices.saveOne(newUser);
 
-    // apiClient
-    // .post("/users", newUser)
     request
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((err) => {
@@ -65,7 +61,6 @@ const App2 = () => {
 
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
 
-    // apiClient.patch(`/users/${user.id}`, updatedUser)
     request.catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
