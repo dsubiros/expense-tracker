@@ -15,6 +15,7 @@ const App2 = () => {
     request
       .then(({ data }) => {
         setUsers(data);
+        setIsLoading(false);
       })
       .catch((err) => {
         if (err instanceof CanceledError) return;
@@ -31,6 +32,7 @@ const App2 = () => {
     const { request, cancel } = userServices.deleteOne<User>(id);
 
     setUsers(users.filter((u) => u.id !== id));
+    
     request.catch((err) => {
       setError(err.message);
       setUsers(originalUsers);

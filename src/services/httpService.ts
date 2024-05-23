@@ -6,6 +6,7 @@ interface Entity {
 
 class HttpService {
   endpoint: string;
+  baseUrl = '';
   
   constructor(endpoint: string) {
     this.endpoint = endpoint;
@@ -24,7 +25,7 @@ class HttpService {
   deleteOne<T>(id: number) {
     const controller = new AbortController();
 
-    const request = apiClient.delete(`/${this.endpoint}/${id}`, {
+    const request = apiClient.delete(`${this.endpoint}/${id}`, {
       signal: controller.signal,
     });
 
@@ -35,9 +36,9 @@ class HttpService {
     const controller = new AbortController();
     const options = { signal: controller.signal };
 
-    const request = item.id
-      ? apiClient.patch(`/${this.endpoint}/${item.id}`, item, options)
-      : apiClient.post(this.endpoint, options);
+    const request = !!item.id
+      ? apiClient.patch(`${this.endpoint}/${item.id}`, item, options)
+      : apiClient.post(this.endpoint, item, options);
 
     return { request, cancel: () => controller.abort() };
   }
